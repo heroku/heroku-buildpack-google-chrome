@@ -92,4 +92,3 @@ topic "Fixing Google Chrome symlinks"
 
 rm $BUILD_DIR/.apt/usr/bin/google-chrome-unstable
 ln -s /app/.apt/opt/google/chrome-unstable/google-chrome-unstable $BUILD_DIR/.apt/usr/bin/google-chrome-unstable
-ln -s /app/.apt/usr/lib/x86_64-linux-gnu/libOSMesa.so.6 $BUILD_DIR/.apt/opt/google/chrome-unstable/libosmesa.so
