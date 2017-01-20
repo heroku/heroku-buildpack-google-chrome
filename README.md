@@ -1,0 +1,1 @@
+# heroku-buildpack-google-chrome
