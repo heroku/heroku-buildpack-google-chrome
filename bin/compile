@@ -93,6 +93,6 @@ SHIM=$BUILD_DIR/.apt/usr/bin/google-chrome-unstable
 rm $SHIM
 cat <<EOF >$SHIM
 #!/usr/bin/env bash
-/app/.apt/opt/google/chrome-unstable/google-chrome-unstable --headless --no-sandbox --disable-gpu $@
+/app/.apt/opt/google/chrome-unstable/google-chrome-unstable --headless --no-sandbox --disable-gpu \$@
 EOF
 chmod +x $SHIM
