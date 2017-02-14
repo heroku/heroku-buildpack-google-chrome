@@ -88,7 +88,7 @@ export | grep -E -e ' (PATH|LD_LIBRARY_PATH|LIBRARY_PATH|INCLUDE_PATH|CPATH|CPPP
 topic "Rewrite package-config files"
 find $BUILD_DIR/.apt -type f -ipath '*/pkgconfig/*.pc' | xargs --no-run-if-empty -n 1 sed -i -e 's!^prefix=\(.*\)$!prefix='"$BUILD_DIR"'/.apt\1!g'
 
-topic "Creating google-chrome-unstable command shim"
+topic "Creating google-chrome-unstable shim"
 SHIM=$BUILD_DIR/.apt/usr/bin/google-chrome-unstable
 rm $SHIM
 cat <<EOF >$SHIM
