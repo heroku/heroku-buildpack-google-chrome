@@ -88,7 +88,11 @@ export | grep -E -e ' (PATH|LD_LIBRARY_PATH|LIBRARY_PATH|INCLUDE_PATH|CPATH|CPPP
 topic "Rewrite package-config files"
 find $BUILD_DIR/.apt -type f -ipath '*/pkgconfig/*.pc' | xargs --no-run-if-empty -n 1 sed -i -e 's!^prefix=\(.*\)$!prefix='"$BUILD_DIR"'/.apt\1!g'
 
-topic "Fixing Google Chrome symlinks"
-
-rm $BUILD_DIR/.apt/usr/bin/google-chrome-unstable
-ln -s /app/.apt/opt/google/chrome-unstable/google-chrome-unstable $BUILD_DIR/.apt/usr/bin/google-chrome-unstable
+topic "Creating google-chrome-unstable shim"
+SHIM=$BUILD_DIR/.apt/usr/bin/google-chrome-unstable
+rm $SHIM
+cat <<EOF >$SHIM
+#!/usr/bin/env bash
+/app/.apt/opt/google/chrome-unstable/google-chrome-unstable --headless --no-sandbox --disable-gpu \$@
+EOF
+chmod +x $SHIM
