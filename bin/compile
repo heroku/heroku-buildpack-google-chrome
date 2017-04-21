@@ -12,7 +12,7 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 LP_DIR=`cd $(dirname $0); cd ..; pwd`
 
-PACKAGES="https://dl.google.com/linux/direct/google-chrome-unstable_current_amd64.deb libxss1"
+PACKAGES="https://dl.google.com/linux/direct/google-chrome-beta_current_amd64.deb libxss1"
 
 function error() {
   echo " !     $*" >&2
@@ -88,11 +88,13 @@ export | grep -E -e ' (PATH|LD_LIBRARY_PATH|LIBRARY_PATH|INCLUDE_PATH|CPATH|CPPP
 topic "Rewrite package-config files"
 find $BUILD_DIR/.apt -type f -ipath '*/pkgconfig/*.pc' | xargs --no-run-if-empty -n 1 sed -i -e 's!^prefix=\(.*\)$!prefix='"$BUILD_DIR"'/.apt\1!g'
 
-topic "Creating google-chrome-unstable shim"
-SHIM=$BUILD_DIR/.apt/usr/bin/google-chrome-unstable
+topic "Creating google-chrome shim"
+BIN_DIR=$BUILD_DIR/.apt/usr/bin
+SHIM=$BIN_DIR/google-chrome-beta
 rm $SHIM
 cat <<EOF >$SHIM
 #!/usr/bin/env bash
-/app/.apt/opt/google/chrome-unstable/google-chrome-unstable --headless --no-sandbox --disable-gpu \$@
+/app/.apt/opt/google/chrome-beta/google-chrome-beta --headless --no-sandbox --disable-gpu \$@
 EOF
 chmod +x $SHIM
+cp $SHIM $BIN_DIR/google-chrome
