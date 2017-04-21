@@ -97,4 +97,4 @@ cat <<EOF >$SHIM
 /app/.apt/opt/google/chrome-beta/google-chrome-beta --headless --no-sandbox --disable-gpu \$@
 EOF
 chmod +x $SHIM
-ln -s $SHIM $BIN_DIR/google-chrome
+cp $SHIM $BIN_DIR/google-chrome
