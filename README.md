@@ -27,8 +27,8 @@ the selected channel.
 If you are using this buildpack with Selenium and webdriver, you'll need to
 tell Selenium where to find the chrome binary. Selenium expects the binary to
 live at `/usr/bin/google-chrome`, but that's a read-only filesystem on Heroku.
-You'll have to tell Selenium and chromedrive that chrome is at
-`/app/.apt/usr/bin/google-chrome`.
+You'll have to tell Selenium and/or chromedriver that Chrome is at
+`/app/.apt/usr/bin/google-chrome` instead.
 
 ## Early termination
 
@@ -37,5 +37,5 @@ issues where Chrome immediately shuts down after your command. You can use
 the `--remote-debugging-port` flag to keep Chrome running. For example:
 
 ```sh
-$ google-chrome-unstable --remote-debugging-port=9222
+$ google-chrome --remote-debugging-port=9222
 ```
