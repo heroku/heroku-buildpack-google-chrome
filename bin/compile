@@ -10,9 +10,9 @@ set -e
 # parse and derive params
 BUILD_DIR=$1
 CACHE_DIR=$2
-LP_DIR=`cd $(dirname $0); cd ..; pwd`
+ENV_DIR=$3
 
-PACKAGES="https://dl.google.com/linux/direct/google-chrome-beta_current_amd64.deb libxss1"
+LP_DIR=`cd $(dirname $0); cd ..; pwd`
 
 function error() {
   echo " !     $*" >&2
@@ -30,6 +30,37 @@ function indent() {
     *)      sed -u "$c";;
   esac
 }
+
+# Detect requested channel or default to stable
+if [ -f $ENV_DIR/GOOGLE_CHROME_CHANNEL ]; then
+  channel=$(cat $ENV_DIR/GOOGLE_CHROME_CHANNEL)
+else
+  channel=stable
+fi
+
+# Setup bin and shim locations for desired channel, and detect invalid channels
+BIN_DIR=$BUILD_DIR/.apt/usr/bin
+case "$channel" in
+  "stable")
+    BIN=/app/.apt/opt/google/chrome/chrome
+    SHIM=$BIN_DIR/google-chrome-stable
+    ;;
+  "beta")
+    BIN=/app/.apt/opt/google/chrome-beta/chrome
+    SHIM=$BIN_DIR/google-chrome-beta
+    ;;
+  "unstable")
+    BIN=/app/.apt/opt/google/chrome-unstable/chrome
+    SHIM=$BIN_DIR/google-chrome-unstable
+    ;;
+  *)
+    error "GOOGLE_CHROME_CHANNEL must be 'stable', 'beta', or 'unstable', not '$channel'"
+    ;;
+esac
+
+indent "Installing Google Chrome from the $channel channel."
+
+PACKAGES="https://dl.google.com/linux/direct/google-chrome-${channel}_current_amd64.deb libxss1"
 
 APT_CACHE_DIR="$CACHE_DIR/apt/cache"
 APT_STATE_DIR="$CACHE_DIR/apt/state"
@@ -88,13 +119,12 @@ export | grep -E -e ' (PATH|LD_LIBRARY_PATH|LIBRARY_PATH|INCLUDE_PATH|CPATH|CPPP
 topic "Rewrite package-config files"
 find $BUILD_DIR/.apt -type f -ipath '*/pkgconfig/*.pc' | xargs --no-run-if-empty -n 1 sed -i -e 's!^prefix=\(.*\)$!prefix='"$BUILD_DIR"'/.apt\1!g'
 
-topic "Creating google-chrome shim"
-BIN_DIR=$BUILD_DIR/.apt/usr/bin
-SHIM=$BIN_DIR/google-chrome-beta
+topic "Creating google-chrome shims"
+
 rm $SHIM
 cat <<EOF >$SHIM
 #!/usr/bin/env bash
-/app/.apt/opt/google/chrome-beta/google-chrome-beta --headless --no-sandbox --disable-gpu \$@
+$BIN --headless --no-sandbox --disable-gpu \$@
 EOF
 chmod +x $SHIM
 cp $SHIM $BIN_DIR/google-chrome
