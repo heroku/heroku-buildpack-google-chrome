@@ -12,11 +12,7 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 ENV_DIR=$3
 
-<<<<<<< HEAD
 LP_DIR=`cd $(dirname $0); cd ..; pwd`
-=======
-PACKAGES="https://dl.google.com/linux/direct/google-chrome-beta_current_amd64.deb libxss1 xvfb"
->>>>>>> Back to beta for now
 
 function error() {
   echo " !     $*" >&2
