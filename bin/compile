@@ -122,9 +122,5 @@ find $BUILD_DIR/.apt -type f -ipath '*/pkgconfig/*.pc' | xargs --no-run-if-empty
 topic "Creating google-chrome shims"
 
 rm $SHIM
-cat <<EOF >$SHIM
-#!/usr/bin/env bash
-$BIN --headless --no-sandbox --disable-gpu \$@
-EOF
-chmod +x $SHIM
-cp $SHIM $BIN_DIR/google-chrome
+ln -s $BIN $SHIM
+ln -s $BIN $BIN_DIR/google-chrome
