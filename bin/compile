@@ -128,3 +128,9 @@ exec $BIN --headless --no-sandbox --disable-gpu --remote-debugging-port=9222 \$@
 EOF
 chmod +x $SHIM
 cp $SHIM $BIN_DIR/google-chrome
+
+# export the chrome binary location, so it's easier to tell chromedriver
+# about the non-standard location
+cat <<EOF >$BUILD_DIR/.profile.d/010_google-chrome.sh
+export GOOGLE_CHROME_BIN=$BIN
+EOF
