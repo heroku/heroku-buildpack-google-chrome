@@ -38,8 +38,8 @@ Additionally, chromedriver expects Chrome to be installed at `/usr/bin/google-ch
 but that's a read-only filesystem in a Heroku slug. You'll need to tell Selenium/chromedriver
 that the chrome binary is at `/app/.apt/usr/bin/google-chrome` instead.
 
-To make that easer, this buildpack makes `$GOOGLE_CHROME_BIN` available as
-an environment variable. This should make it easier to use the standard location
+To make that easier, this buildpack makes `$GOOGLE_CHROME_BIN` available as
+an environment variable. With it, you can use the standard location
 locally and the custom location on Heroku. An example configuration for Ruby's
 Capybara:
 
