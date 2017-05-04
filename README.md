@@ -5,7 +5,7 @@ of release channels.
 
 While headless Chrome is stable, some use cases (like filling in fields via
 Selenium) require an X window server to be active. For those cases, please
-see the [heroku-xvfb-google-chrome buildpack](https://github.com/heroku/heroku-buildpack-xvfb-chrome)
+see the [heroku-xvfb-google-chrome buildpack](https://github.com/heroku/heroku-buildpack-xvfb-google-chrome)
 instead.
 
 ## Channels
@@ -37,3 +37,22 @@ also available.
 Additionally, chromedriver expects Chrome to be installed at `/usr/bin/google-chrome`,
 but that's a read-only filesystem in a Heroku slug. You'll need to tell Selenium/chromedriver
 that the chrome binary is at `/app/.apt/usr/bin/google-chrome` instead.
+
+To make that easer, this buildpack makes `$GOOGLE_CHROME_BIN` available as
+an environment variable. This should make it easier to use the standard location
+locally and the custom location on Heroku. An example configuration for Ruby's
+Capybara:
+
+```
+chrome_bin = ENV.fetch('GOOGLE_CHROME_BIN', nil)
+
+chrome_opts = chrome_bin ? { "chromeOptions" => { "binary" => chrome_bin } } : {}
+
+Capybara.register_driver :chrome do |app|
+  Capybara::Selenium::Driver.new(
+     app,
+     browser: :chrome,
+     desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(chrome_options)
+  )
+end
+```
