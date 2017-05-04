@@ -3,6 +3,11 @@
 This buildpack downloads and installs (headless) Google Chrome from your choice
 of release channels.
 
+While headless Chrome is stable, some use cases (like filling in fields via
+Selenium) require an X window server to be active. For those cases, please
+see the [heroku-xvfb-google-chrome buildpack](https://github.com/heroku/heroku-buildpack-xvfb-chrome)
+instead.
+
 ## Channels
 
 You can choose your release channel by specifying `GOOGLE_CHROME_CHANNEL` as
@@ -24,11 +29,14 @@ the selected channel.
 
 ## Selenium
 
-If you are using this buildpack with Selenium and webdriver, you'll need to
-tell Selenium where to find the chrome binary. Selenium expects the binary to
-live at `/usr/bin/google-chrome`, but that's a read-only filesystem on Heroku.
-You'll have to tell Selenium and/or chromedriver that Chrome is at
-`/app/.apt/usr/bin/google-chrome` instead.
+To use Selenium with this buildpack, you'll also need Chrome's webdriver.
+This buildpack does not install chromedriver, but there is a
+[chromedriver buildpack](https://github.com/heroku/heroku-buildpack-chromedriver)
+also available.
+
+Additionally, chromedriver expects Chrome to be installed at `/usr/bin/google-chrome`,
+but that's a read-only filesystem in a Heroku slug. You'll need to tell Selenium/chromedriver
+that the chrome binary is at `/app/.apt/usr/bin/google-chrome` instead.
 
 ## Early termination
 
