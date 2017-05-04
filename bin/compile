@@ -124,7 +124,7 @@ topic "Creating google-chrome shims"
 rm $SHIM
 cat <<EOF >$SHIM
 #!/usr/bin/env bash
-exec $BIN --headless --no-sandbox --disable-gpu \$@
+exec $BIN --headless --no-sandbox --disable-gpu --remote-debugging-port=9222 \$@
 EOF
 chmod +x $SHIM
 cp $SHIM $BIN_DIR/google-chrome
