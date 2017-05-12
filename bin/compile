@@ -79,6 +79,8 @@ PACKAGES="$PACKAGES https://dl.google.com/linux/direct/google-chrome-${channel}_
 APT_CACHE_DIR="$CACHE_DIR/apt/cache"
 APT_STATE_DIR="$CACHE_DIR/apt/state"
 
+rm -rf $APT_CACHE_DIR/archives/*.deb
+
 mkdir -p "$APT_CACHE_DIR/archives/partial"
 mkdir -p "$APT_STATE_DIR/lists/partial"
 
