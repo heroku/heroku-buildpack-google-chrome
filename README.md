@@ -39,7 +39,7 @@ but that's a read-only filesystem in a Heroku slug. You'll need to tell Selenium
 that the chrome binary is at `/app/.apt/usr/bin/google-chrome` instead.
 
 To make that easier, this buildpack makes `$GOOGLE_CHROME_BIN`, and
-`$GOOGLE_CHROME_SHIM` available as environment variables. With it, you can 
+`$GOOGLE_CHROME_SHIM` available as environment variables. With them, you can 
 use the standard location locally and the custom location on Heroku. An example 
 configuration for Ruby's Capybara:
 
