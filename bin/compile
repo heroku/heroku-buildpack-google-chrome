@@ -147,4 +147,5 @@ cp $SHIM $BIN_DIR/google-chrome
 # about the non-standard location
 cat <<EOF >$BUILD_DIR/.profile.d/010_google-chrome.sh
 export GOOGLE_CHROME_BIN=$BIN
+export GOOGLE_CHROME_SHIM=$SHIM
 EOF
