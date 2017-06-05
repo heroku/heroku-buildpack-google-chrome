@@ -44,7 +44,7 @@ use the standard location locally and the custom location on Heroku. An example
 configuration for Ruby's Capybara:
 
 ```
-chrome_bin = ENV.fetch('GOOGLE_CHROME_BIN', nil)
+chrome_bin = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
 
 chrome_opts = chrome_bin ? { "chromeOptions" => { "binary" => chrome_bin } } : {}
 
