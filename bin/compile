@@ -147,6 +147,6 @@ cp $BIN_DIR/$SHIM $BIN_DIR/google-chrome
 # export the chrome binary location, so it's easier to tell chromedriver
 # about the non-standard location
 cat <<EOF >$BUILD_DIR/.profile.d/010_google-chrome.sh
-export GOOGLE_CHROME_BIN="$\HOME/.apt/opt/google/$BIN"
-export GOOGLE_CHROME_SHIM="$\HOME/.apt/usr/bin/$SHIM"
+export GOOGLE_CHROME_BIN="\$HOME/.apt/opt/google/$BIN"
+export GOOGLE_CHROME_SHIM="\$HOME/.apt/usr/bin/$SHIM"
 EOF
