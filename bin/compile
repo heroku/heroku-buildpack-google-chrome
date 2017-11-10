@@ -39,19 +39,18 @@ else
 fi
 
 # Setup bin and shim locations for desired channel, and detect invalid channels
-BIN_DIR=$BUILD_DIR/.apt/usr/bin
 case "$channel" in
   "stable")
-    BIN=/app/.apt/opt/google/chrome/chrome
-    SHIM=$BIN_DIR/google-chrome-stable
+    BIN=chrome/chrome
+    SHIM=google-chrome-stable
     ;;
   "beta")
-    BIN=/app/.apt/opt/google/chrome-beta/chrome
-    SHIM=$BIN_DIR/google-chrome-beta
+    BIN=chrome-beta/chrome
+    SHIM=google-chrome-beta
     ;;
   "unstable")
-    BIN=/app/.apt/opt/google/chrome-unstable/chrome
-    SHIM=$BIN_DIR/google-chrome-unstable
+    BIN=chrome-unstable/chrome
+    SHIM=google-chrome-unstable
     ;;
   *)
     error "GOOGLE_CHROME_CHANNEL must be 'stable', 'beta', or 'unstable', not '$channel'."
@@ -135,17 +134,19 @@ find $BUILD_DIR/.apt -type f -ipath '*/pkgconfig/*.pc' | xargs --no-run-if-empty
 
 topic "Creating google-chrome shims"
 
-rm $SHIM
-cat <<EOF >$SHIM
+BIN_DIR=$BUILD_DIR/.apt/usr/bin
+
+rm $BIN_DIR/$SHIM
+cat <<EOF >$BIN_DIR/$SHIM
 #!/usr/bin/env bash
-exec $BIN --headless --no-sandbox --disable-gpu --remote-debugging-port=9222 \$@
+exec \$HOME/.apt/opt/google/$BIN --headless --no-sandbox --disable-gpu --remote-debugging-port=9222 \$@
 EOF
-chmod +x $SHIM
-cp $SHIM $BIN_DIR/google-chrome
+chmod +x $BIN_DIR/$SHIM
+cp $BIN_DIR/$SHIM $BIN_DIR/google-chrome
 
 # export the chrome binary location, so it's easier to tell chromedriver
 # about the non-standard location
 cat <<EOF >$BUILD_DIR/.profile.d/010_google-chrome.sh
-export GOOGLE_CHROME_BIN=$BIN
-export GOOGLE_CHROME_SHIM=$SHIM
+export GOOGLE_CHROME_BIN="\$HOME/.apt/opt/google/$BIN"
+export GOOGLE_CHROME_SHIM="\$HOME/.apt/usr/bin/$SHIM"
 EOF
