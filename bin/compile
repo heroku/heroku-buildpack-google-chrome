@@ -52,8 +52,10 @@ case "$channel" in
     BIN=chrome-unstable/chrome
     SHIM=google-chrome-unstable
     ;;
+  "none")
+    ;;
   *)
-    error "GOOGLE_CHROME_CHANNEL must be 'stable', 'beta', or 'unstable', not '$channel'."
+    error "GOOGLE_CHROME_CHANNEL must be 'stable', 'beta', 'unstable', or 'none', not '$channel'."
     ;;
 esac
 
@@ -71,9 +73,13 @@ case "$stack" in
     error "STACK must be 'cedar-14' or 'heroku-16', not '$stack.'"
 esac
 
-indent "Installing Google Chrome from the $channel channel."
+if [[ $channel != 'none' ]]; then
+  echo "Installing Google Chrome from the $channel channel." | indent
 
-PACKAGES="$PACKAGES https://dl.google.com/linux/direct/google-chrome-${channel}_current_amd64.deb"
+  PACKAGES="$PACKAGES https://dl.google.com/linux/direct/google-chrome-${channel}_current_amd64.deb"
+else
+  echo "Skipping Google Chrome installation due to channel set to 'none'." | indent
+fi
 
 APT_CACHE_DIR="$CACHE_DIR/apt/cache"
 APT_STATE_DIR="$CACHE_DIR/apt/state"
@@ -133,6 +139,12 @@ topic "Rewrite package-config files"
 find $BUILD_DIR/.apt -type f -ipath '*/pkgconfig/*.pc' | xargs --no-run-if-empty -n 1 sed -i -e 's!^prefix=\(.*\)$!prefix='"$BUILD_DIR"'/.apt\1!g'
 
 topic "Creating google-chrome shims"
+
+if [[ $channel == 'none' ]]; then
+  echo "Abort the creation due to channel set to 'none'." | indent
+
+  exit 0
+fi
 
 BIN_DIR=$BUILD_DIR/.apt/usr/bin
 
