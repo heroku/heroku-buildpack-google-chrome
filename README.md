@@ -55,4 +55,6 @@ Capybara.register_driver :chrome do |app|
      desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(chrome_opts)
   )
 end
+
+Capybara.javascript_driver = :chrome
 ```
