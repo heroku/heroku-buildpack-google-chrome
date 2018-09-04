@@ -65,7 +65,7 @@ case "$stack" in
     PACKAGES="libxss1"
     ;;
   "heroku-16" | "heroku-18")
-    PACKAGES=""
+    PACKAGES="libX11-xcb libXtst libnss3 libnssutil3 libsmime3 libnspr4 libXss libasound libatk-bridge-2.0 libgtk-3 libgdk-3"
     ;;
   *)
     error "STACK must be 'cedar-14', 'heroku-16', or 'heroku-18' not '$stack.'"
