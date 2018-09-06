@@ -73,10 +73,12 @@ case "$stack" in
     error "STACK must be 'cedar-14', 'heroku-16', or 'heroku-18' not '$stack.'"
 esac
 
-if [ ! -f $CACHE_DIR/UPDATED_APT_GET ]; then
-  topic "Purging apt-get cache"
+if [ ! -f $CACHE_DIR/PURGED_CACHE ]; then
+  topic "Purging cache"
   rm -rf $CACHE_DIR/apt
-  touch $CACHE_DIR/UPDATED_APT_GET
+  rm -rf $CACHE_DIR/archives
+  rm -rf $CACHE_DIR/lists
+  touch $CACHE_DIR/PURGED_CACHE
 fi
 
 topic "Installing Google Chrome from the $channel channel."
