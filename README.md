@@ -63,4 +63,4 @@ Capybara.javascript_driver = :chrome
 
 Make sure you publish this buildpack in the buildpack registry
 
-`heroku buildpacks:publish heroku/google-chrome`
+`heroku buildpacks:publish heroku/google-chrome master`
