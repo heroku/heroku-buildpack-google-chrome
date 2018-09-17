@@ -58,3 +58,9 @@ end
 
 Capybara.javascript_driver = :chrome
 ```
+
+## Releasing a new version
+
+Make sure you publish this buildpack in the buildpack registry
+
+`heroku buildpacks:publish heroku/google-chrome master`
