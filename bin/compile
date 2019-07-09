@@ -171,9 +171,9 @@ BIN_DIR=$BUILD_DIR/.apt/usr/bin
 rm $BIN_DIR/$SHIM
 cat <<EOF >$BIN_DIR/$SHIM
 #!/usr/bin/env bash
-if [ $1 = "--version" ]; then
+if [ \$1 = "--version" ]; then
   exec \$HOME/.apt/opt/google/$BIN --version
-elif [ $1 = "--product-version" ]; then
+elif [ \$1 = "--product-version" ]; then
   exec \$HOME/.apt/opt/google/$BIN --product-version
 else
   exec \$HOME/.apt/opt/google/$BIN --headless --no-sandbox --disable-gpu --remote-debugging-port=9222 \$@
