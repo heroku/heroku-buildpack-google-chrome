@@ -105,7 +105,7 @@ fi
 
 topic "Installing Google Chrome from the $channel channel."
 
-PACKAGES="$PACKAGES https://dl.google.com/linux/direct/google-chrome-${channel}_current_amd64.deb"
+PACKAGES="$PACKAGES https://lumint-utils.s3.us-east-2.amazonaws.com/google_chrome_75.0.3770.90.deb"
 
 APT_CACHE_DIR="$CACHE_DIR/apt/cache"
 APT_STATE_DIR="$CACHE_DIR/apt/state"
