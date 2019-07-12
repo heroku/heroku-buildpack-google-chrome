@@ -38,6 +38,12 @@ else
   channel=stable
 fi
 
+if [ -f $ENV_DIR/CHROMEDRIVER_VERSION ]; then
+  chrome_version=$(cat $ENV_DIR/CHROMEDRIVER_VERSION)
+else
+  error "No CHROMEDRIVER_VERSION setup"
+fi
+
 # Setup bin and shim locations for desired channel, and detect invalid channels
 case "$channel" in
   "stable")
@@ -105,7 +111,7 @@ fi
 
 topic "Installing Google Chrome from the $channel channel."
 
-PACKAGES="$PACKAGES https://lumint-utils.s3.us-east-2.amazonaws.com/google_chrome_75.0.3770.90.deb"
+PACKAGES="$PACKAGES https://lumint-utils.s3.us-east-2.amazonaws.com/google_chrome_${chrome_version}.deb"
 
 APT_CACHE_DIR="$CACHE_DIR/apt/cache"
 APT_STATE_DIR="$CACHE_DIR/apt/state"
