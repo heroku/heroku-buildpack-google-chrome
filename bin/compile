@@ -182,6 +182,10 @@ EOF
 chmod +x $BIN_DIR/$SHIM
 cp $BIN_DIR/$SHIM $BIN_DIR/google-chrome
 
+
+version=$($BIN_DIR/google-chrome --version)
+topic "Installed $version"
+
 # export the chrome binary location, so it's easier to tell chromedriver
 # about the non-standard location
 cat <<EOF >$BUILD_DIR/.profile.d/010_google-chrome.sh
