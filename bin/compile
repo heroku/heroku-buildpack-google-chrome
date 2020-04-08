@@ -74,8 +74,8 @@ case "$stack" in
       libatk1.0-0
       libatk-bridge2.0-0
       libcairo-gobject2
-      libdrm-dev
-      libgbm-dev
+      libdrm2
+      libgbm1
       libgconf-2-4
       libgtk-3-0
       libnspr4
