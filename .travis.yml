@@ -14,6 +14,10 @@ env:
   - STACK=heroku-18 GOOGLE_CHROME_CHANNEL=beta
   - STACK=heroku-18 GOOGLE_CHROME_CHANNEL=unstable
 
+  - STACK=heroku-20 GOOGLE_CHROME_CHANNEL=stable
+  - STACK=heroku-20 GOOGLE_CHROME_CHANNEL=beta
+  - STACK=heroku-20 GOOGLE_CHROME_CHANNEL=unstable
+
   # Test relying on the buildpack's default Chrome channel.
   - STACK=heroku-18
 script:

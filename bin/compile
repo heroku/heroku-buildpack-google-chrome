@@ -64,7 +64,7 @@ case "$stack" in
   "cedar-14")
     PACKAGES="libxss1"
     ;;
-  "heroku-16" | "heroku-18")
+  "heroku-16" | "heroku-18" | "heroku-20")
     # the package list is found by using ci:debug then running ldd $GOOGLE_CHROME_BIN | grep not
     # also look here for more packages/notes https://developers.google.com/web/tools/puppeteer/troubleshooting
     PACKAGES="
@@ -95,7 +95,7 @@ case "$stack" in
     "
     ;;
   *)
-    error "STACK must be 'cedar-14', 'heroku-16', or 'heroku-18' not '$stack.'"
+    error "STACK must be 'cedar-14', 'heroku-16', 'heroku-18' or 'heroku-20', not '$stack'."
 esac
 
 if [ ! -f $CACHE_DIR/PURGED_CACHE_V1 ]; then
