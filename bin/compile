@@ -31,12 +31,35 @@ function indent() {
   esac
 }
 
+function load_config(){
+  echo "Checking Chrome version..."
+
+  local config_file="${BUILD_DIR}/google_chrome_buildpack.config"
+
+  if [ -f $config_file ];
+  then
+    source $config_file
+  else
+    error "This buildpack requires google_chrome_buildpack.config file in order to pin to a specific Chrome version."
+  fi
+
+  chrome_version=$(echo "$chrome_version" | sed 's/[^0-9.]*//g')
+
+  if [ -z "$chrome_version" ];
+  then
+    error "This buildpack requires chrome_version to be set in order to pin to a specific Chrome version."
+  fi
+}
+
 # Detect requested channel or default to stable
 if [ -f $ENV_DIR/GOOGLE_CHROME_CHANNEL ]; then
   channel=$(cat $ENV_DIR/GOOGLE_CHROME_CHANNEL)
 else
   channel=stable
 fi
+
+# Detect version of chrome to pin
+load_config
 
 # Setup bin and shim locations for desired channel, and detect invalid channels
 case "$channel" in
@@ -106,9 +129,14 @@ if [ ! -f $CACHE_DIR/PURGED_CACHE_V1 ]; then
   touch $CACHE_DIR/PURGED_CACHE_V1
 fi
 
-topic "Installing Google Chrome from the $channel channel."
+topic "Installing Google Chrome (v $chrome_version) from the $channel channel."
 
-PACKAGES="$PACKAGES https://dl.google.com/linux/direct/google-chrome-${channel}_current_amd64.deb"
+# See https://www.ubuntuupdates.org/package/google_chrome/stable/main/base/google-chrome-stable for available versions
+
+# URL as of 7/17/2020 for downloading older stable chrome versions
+PINNED_CHROME_DEB_URL="http://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${chrome_version}-1_amd64.deb"
+
+PACKAGES="$PACKAGES $PINNED_CHROME_DEB_URL"
 
 APT_CACHE_DIR="$CACHE_DIR/apt/cache"
 APT_STATE_DIR="$CACHE_DIR/apt/state"
