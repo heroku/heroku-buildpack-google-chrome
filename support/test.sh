@@ -17,6 +17,7 @@ OUTPUT_IMAGE="google-chrome-test-${STACK}"
 echo "Building buildpack on stack ${STACK}..."
 
 docker build \
+    --file Dockerfile.test \
     --build-arg "BASE_IMAGE=${BASE_IMAGE}" \
     --build-arg "STACK=${STACK}" \
     ${GOOGLE_CHROME_CHANNEL:+--build-arg "GOOGLE_CHROME_CHANNEL=${GOOGLE_CHROME_CHANNEL}"} \
