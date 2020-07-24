@@ -149,6 +149,13 @@ APT_OPTIONS="-o debug::nolocking=true -o dir::cache=$APT_CACHE_DIR -o dir::state
 topic "Updating apt caches"
 apt-get $APT_OPTIONS update | indent
 
+# REMOVE OLD CHROME VERSIONS FROM THE CACHE
+for DEB in $(ls -1 $APT_CACHE_DIR/archives/google-chrome-*.deb); do
+  if [[ "$(basename $PINNED_CHROME_DEB_URL)" -ne "$(basename $DEB)"]]; then
+    rm -f $DEB
+  fi
+done
+
 for PACKAGE in $PACKAGES; do
   if [[ $PACKAGE == *deb ]]; then
     PACKAGE_NAME=$(basename $PACKAGE .deb)
