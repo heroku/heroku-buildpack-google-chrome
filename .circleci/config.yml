@@ -26,32 +26,10 @@ workflows:
   main:
     jobs:
       - test:
-          channel: stable
-          stack: heroku-16
-      - test:
-          channel: beta
-          stack: heroku-16
-      - test:
-          channel: unstable
-          stack: heroku-16
-      - test:
-          channel: stable
-          stack: heroku-18
-      - test:
-          channel: beta
-          stack: heroku-18
-      - test:
-          channel: unstable
-          stack: heroku-18
-      - test:
-          channel: stable
-          stack: heroku-20
-      - test:
-          channel: beta
-          stack: heroku-20
-      - test:
-          channel: unstable
-          stack: heroku-20
+          matrix:
+            parameters:
+              channel: [stable, beta, unstable]
+              stack: [heroku-16, heroku-18, heroku-20]
       - test: #default
           channel: ""
           stack: heroku-18
