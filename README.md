@@ -38,16 +38,19 @@ To make that easier, this buildpack makes `$GOOGLE_CHROME_BIN`, and
 use the standard location locally and the custom location on Heroku. An example 
 configuration for Ruby's Capybara:
 
-```
-chrome_bin = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
-
-chrome_opts = chrome_bin ? { "chromeOptions" => { "binary" => chrome_bin } } : {}
+```ruby
+google_chrome_bin = ENV.fetch("GOOGLE_CHROME_BIN", nil)
+Selenium::WebDriver::Chrome.path = google_chrome_bin unless google_chrome_bin.nil?
 
 Capybara.register_driver :chrome do |app|
+  options = ::Selenium::WebDriver::Chrome::Options.new
+  google_chrome_shim = ENV.fetch("GOOGLE_CHROME_SHIM", nil)
+  options.binary = google_chrome_shim unless google_chrome_shim.nil?
+
   Capybara::Selenium::Driver.new(
-     app,
-     browser: :chrome,
-     desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(chrome_opts)
+    app,
+    browser: :chrome,
+    options: options
   )
 end
 
