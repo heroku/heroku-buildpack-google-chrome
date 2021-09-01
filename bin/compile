@@ -124,8 +124,7 @@ apt-get $APT_OPTIONS update | indent
 
 for PACKAGE in $PACKAGES; do
   if [[ $PACKAGE == *deb ]]; then
-    PACKAGE_NAME=$(basename $PACKAGE .deb)
-    PACKAGE_FILE=$APT_CACHE_DIR/archives/$PACKAGE_NAME.deb
+    PACKAGE_FILE=$APT_CACHE_DIR/archives/google_chrome.deb
 
     topic "Fetching $PACKAGE"
     curl -s -L -z $PACKAGE_FILE -o $PACKAGE_FILE $PACKAGE 2>&1 | indent
