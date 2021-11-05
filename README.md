@@ -12,6 +12,8 @@ or in your pipeline settings (for Heroku CI).
 Valid values are `stable`, `beta`, and `unstable`. If unspecified, the `stable`
 channel will be used.
 
+You can also choose a chrome version by specifying `GOOGLE_CHROME_VERSION`. The chosen version should come from the [history of the stable channel](https://www.ubuntuupdates.org/package/google_chrome/stable/main/base/google-chrome-stable).
+
 ## Shims and Command Line Flags
 
 This buildpack installs shims that always add `--headless`, `--disable-gpu`, 
