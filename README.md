@@ -3,11 +3,6 @@
 This buildpack downloads and installs (headless) Google Chrome from your choice
 of release channels.
 
-While headless Chrome is stable, some use cases (like filling in fields via
-Selenium) require an X window server to be active. For those cases, please
-see the [heroku-xvfb-google-chrome buildpack](https://github.com/heroku/heroku-buildpack-xvfb-google-chrome)
-instead.
-
 ## Channels
 
 You can choose your release channel by specifying `GOOGLE_CHROME_CHANNEL` as
@@ -55,4 +50,12 @@ Capybara.register_driver :chrome do |app|
      desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(chrome_opts)
   )
 end
+
+Capybara.javascript_driver = :chrome
 ```
+
+## Releasing a new version
+
+Make sure you publish this buildpack in the buildpack registry
+
+`heroku buildpacks:publish heroku/google-chrome master`

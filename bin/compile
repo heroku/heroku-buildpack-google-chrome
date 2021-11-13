@@ -64,14 +64,50 @@ case "$stack" in
   "cedar-14")
     PACKAGES="libxss1"
     ;;
-  "heroku-16")
-    PACKAGES="libxss1 libx11-xcb1 libxcomposite1 libxcursor1 libxdamage1 libxfixes3 libxi6 libxtst6 libnss3 libgconf-2-4 libxrandr2 libasound2 libatk1.0-0 libgtk2.0-0 libgtk-3-0 libxinerama1 libcairo-gobject2"
+  "heroku-16" | "heroku-18" | "heroku-20")
+    # the package list is found by using ci:debug then running ldd $GOOGLE_CHROME_BIN | grep not
+    # also look here for more packages/notes https://developers.google.com/web/tools/puppeteer/troubleshooting
+    PACKAGES="
+      gconf-service
+      libappindicator1
+      libasound2
+      libatk1.0-0
+      libatk-bridge2.0-0
+      libcairo-gobject2
+      libdrm2
+      libgbm1
+      libgconf-2-4
+      libgtk-3-0
+      libnspr4
+      libnss3
+      libx11-xcb1
+      libxcb-dri3-0
+      libxcomposite1
+      libxcursor1
+      libxdamage1
+      libxfixes3
+      libxi6
+      libxinerama1
+      libxrandr2
+      libxshmfence1
+      libxss1
+      libxtst6
+      fonts-liberation
+    "
     ;;
   *)
-    error "STACK must be 'cedar-14' or 'heroku-16', not '$stack.'"
+    error "STACK must be 'cedar-14', 'heroku-16', 'heroku-18' or 'heroku-20', not '$stack'."
 esac
 
-indent "Installing Google Chrome from the $channel channel."
+if [ ! -f $CACHE_DIR/PURGED_CACHE_V1 ]; then
+  topic "Purging cache"
+  rm -rf $CACHE_DIR/apt
+  rm -rf $CACHE_DIR/archives
+  rm -rf $CACHE_DIR/lists
+  touch $CACHE_DIR/PURGED_CACHE_V1
+fi
+
+topic "Installing Google Chrome from the $channel channel."
 
 PACKAGES="$PACKAGES https://dl.google.com/linux/direct/google-chrome-${channel}_current_amd64.deb"
 
@@ -139,7 +175,14 @@ BIN_DIR=$BUILD_DIR/.apt/usr/bin
 rm $BIN_DIR/$SHIM
 cat <<EOF >$BIN_DIR/$SHIM
 #!/usr/bin/env bash
-exec \$HOME/.apt/opt/google/$BIN --headless --no-sandbox --disable-gpu --remote-debugging-port=9222 "\$@"
+
+if [ \$1 = "--version" ]; then
+  exec \$HOME/.apt/opt/google/$BIN --version
+elif [ \$1 = "--product-version" ]; then
+  exec \$HOME/.apt/opt/google/$BIN --product-version
+else
+  exec \$HOME/.apt/opt/google/$BIN --headless --no-sandbox --disable-gpu --remote-debugging-port=9222 "\$@"
+fi
 EOF
 chmod +x $BIN_DIR/$SHIM
 cp $BIN_DIR/$SHIM $BIN_DIR/google-chrome
