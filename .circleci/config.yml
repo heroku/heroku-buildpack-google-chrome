@@ -29,7 +29,7 @@ workflows:
           matrix:
             parameters:
               channel: [stable, beta, unstable]
-              stack: [heroku-16, heroku-18, heroku-20]
+              stack: [heroku-18, heroku-20]
       - test: #default
           channel: ""
-          stack: heroku-18
+          stack: heroku-20
