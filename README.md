@@ -12,6 +12,10 @@ or in your pipeline settings (for Heroku CI).
 Valid values are `stable`, `beta`, and `unstable`. If unspecified, the `stable`
 channel will be used.
 
+You can choose your release channel by specifying `GOOGLE_CHROME_CHANNEL` as
+a config var for your app, in your app.json (for Heroku CI and Review Apps),
+or in your pipeline settings (for Heroku CI).
+
 ## Shims and Command Line Flags
 
 This buildpack installs shims that always add `--headless`, `--disable-gpu`, 
