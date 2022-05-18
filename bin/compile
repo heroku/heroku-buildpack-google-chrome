@@ -59,7 +59,7 @@ esac
 
 # Install correct dependencies according to $STACK
 case "${STACK}" in
-  "heroku-18" | "heroku-20" | "heroku-22")
+  "scalingo-20" | "scalingo-22")
     # the package list is found by using ci:debug then running ldd $GOOGLE_CHROME_BIN | grep not
     # also look here for more packages/notes https://developers.google.com/web/tools/puppeteer/troubleshooting
     PACKAGES="
@@ -91,7 +91,7 @@ case "${STACK}" in
     "
     ;;
   *)
-    error "STACK must be 'heroku-18', 'heroku-20' or 'heroku-22', not '${STACK}'."
+    error "STACK must be 'scalingo-20' or 'scalingo-22', not '${STACK}'."
 esac
 
 if [ ! -f $CACHE_DIR/PURGED_CACHE_V1 ]; then
