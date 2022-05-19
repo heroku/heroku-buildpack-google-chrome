@@ -5,13 +5,7 @@ set -euo pipefail
 [ $# -eq 1 ] || { echo "Usage: $0 STACK"; exit 1; }
 
 STACK="${1}"
-
-if [[ "${STACK}" == "cedar-14" ]]; then
-    BASE_IMAGE="heroku/${STACK/-/:}"
-else
-    BASE_IMAGE="heroku/${STACK/-/:}-build"
-fi
-
+BASE_IMAGE="heroku/${STACK/-/:}-build"
 OUTPUT_IMAGE="google-chrome-test-${STACK}"
 
 echo "Building buildpack on stack ${STACK}..."
