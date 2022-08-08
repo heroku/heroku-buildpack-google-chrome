@@ -7,7 +7,7 @@ jobs:
     strategy:
       matrix:
         stack: [heroku-18, heroku-20, heroku-22]
-        redis_version: [stable, beta, unstable]
+        channel: [stable, beta, unstable]
     runs-on: ubuntu-latest
 
     steps:
