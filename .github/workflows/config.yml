@@ -1,0 +1,29 @@
+name: buildpack-google-chrome
+
+on: push
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        stack: [heroku-18, heroku-20, heroku-22]
+        channel: [stable, beta, unstable]
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Run Test
+      run: ./support/test.sh ${{ matrix.stack }}
+      env:
+        GOOGLE_CHROME_CHANNEL: ${{ matrix.channel }}
+
+  # dummy job to wait and block merge until all jobs have completed
+  done:
+    runs-on: ubuntu-latest
+
+    needs: [test]
+
+    steps:
+      - run: echo done
+        working-directory: /
