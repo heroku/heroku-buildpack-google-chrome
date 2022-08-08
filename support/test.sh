@@ -20,6 +20,6 @@ docker build \
 echo "Checking Google Chrome can start and aliases exist..."
 
 TEST_COMMAND="for alias in google-chrome{,-${GOOGLE_CHROME_CHANNEL:-stable}} \${GOOGLE_CHROME_BIN} \${GOOGLE_CHROME_SHIM}; do \${alias} --version; done"
-docker run --rm -it "${OUTPUT_IMAGE}" bash -c "set -ex && for f in .profile.d/*; do source \"\$f\"; done && ${TEST_COMMAND}"
+docker run --rm -t "${OUTPUT_IMAGE}" bash -c "set -ex && for f in .profile.d/*; do source \"\$f\"; done && ${TEST_COMMAND}"
 
 echo "Success!"
