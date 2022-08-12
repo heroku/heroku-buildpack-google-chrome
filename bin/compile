@@ -102,9 +102,16 @@ if [ ! -f $CACHE_DIR/PURGED_CACHE_V1 ]; then
   touch $CACHE_DIR/PURGED_CACHE_V1
 fi
 
-topic "Installing Google Chrome from the $channel channel."
-
-PACKAGES="$PACKAGES https://dl.google.com/linux/direct/google-chrome-${channel}_current_amd64.deb"
+# Detect requested channel or default to stable
+if [ -f $ENV_DIR/GOOGLE_CHROME_VERSION ]; then
+  # Check available versions here: https://www.ubuntuupdates.org/package/google_chrome/stable/main/base/google-chrome-stable
+  version=$(cat $ENV_DIR/GOOGLE_CHROME_VERSION)
+  topic "Installing Google Chrome $version."
+  PACKAGES="$PACKAGES https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${version}_amd64.deb"
+else
+  topic "Installing Google Chrome from the $channel channel."
+  PACKAGES="$PACKAGES https://dl.google.com/linux/direct/google-chrome-${channel}_current_amd64.deb"
+fi
 
 APT_CACHE_DIR="$CACHE_DIR/apt/cache"
 APT_STATE_DIR="$CACHE_DIR/apt/state"
@@ -133,8 +140,13 @@ done
 mkdir -p $BUILD_DIR/.apt
 
 for DEB in $(ls -1 $APT_CACHE_DIR/archives/*.deb); do
-  topic "Installing $(basename $DEB)"
-  dpkg -x $DEB $BUILD_DIR/.apt/
+  DEB_FILE=$(basename $DEB)
+  if [ -f $ENV_DIR/GOOGLE_CHROME_VERSION ] && [ "${DEB_FILE}" == "google-chrome-${channel}_current_amd64.deb" ]; then
+    topic "Ignoring ${DEB_FILE}"
+  else
+    topic "Installing ${DEB_FILE}"
+    dpkg -x $DEB $BUILD_DIR/.apt/
+  fi
 done
 
 topic "Writing profile script"
@@ -188,6 +200,6 @@ cp $BIN_DIR/$SHIM $BIN_DIR/google-chrome
 # export the chrome binary location, so it's easier to tell chromedriver
 # about the non-standard location
 cat <<EOF >$BUILD_DIR/.profile.d/010_google-chrome.sh
-export GOOGLE_CHROME_BIN="\$HOME/.apt/opt/google/$BIN"
-export GOOGLE_CHROME_SHIM="\$HOME/.apt/usr/bin/$SHIM"
+[ -z \${GOOGLE_CHROME_BIN} ] && export GOOGLE_CHROME_BIN="$HOME/.apt/usr/bin/google-chrome"
+[ -z \${GOOGLE_CHROME_SHIM} ] && export GOOGLE_CHROME_SHIM="$HOME/.apt/usr/bin/google-chrome"
 EOF
