@@ -38,7 +38,7 @@ To make that easier, this buildpack makes `$GOOGLE_CHROME_BIN`, and
 use the standard location locally and the custom location on Heroku. An example 
 configuration for Ruby's Capybara:
 
-```
+```ruby
 chrome_bin = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
 
 chrome_opts = chrome_bin ? { "chromeOptions" => { "binary" => chrome_bin } } : {}
