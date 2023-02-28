@@ -1,4 +1,4 @@
-# heroku-buildpack-google-chrome
+# Scalingo-buildpack-google-chrome
 
 This buildpack downloads and installs (headless) Google Chrome from your choice
 of release channels.
@@ -12,11 +12,15 @@ or in your pipeline settings (for Heroku CI).
 Valid values are `stable`, `beta`, and `unstable`. If unspecified, the `stable`
 channel will be used.
 
+## Using the buildpack
+
+Read the docs [here](https://doc.scalingo.com/platform/deployment/buildpacks/multi)
+
 ## Shims and Command Line Flags
 
 This buildpack installs shims that always add `--headless`, `--disable-gpu`, 
 `--no-sandbox`, and `--remote-debugging-port=9222` to any `google-chrome` 
-command as you'll have trouble running Chrome on a Heroku dyno otherwise.
+command as you'll have trouble running Chrome on a Scalingo container otherwise.
 
 You'll have two of these shims on your path: `google-chrome` and
 `google-chrome-$GOOGLE_CHROME_CHANNEL`. They both point to the binary of
@@ -35,7 +39,7 @@ that the chrome binary is at `/app/.apt/usr/bin/google-chrome` instead.
 
 To make that easier, this buildpack makes `$GOOGLE_CHROME_BIN`, and
 `$GOOGLE_CHROME_SHIM` available as environment variables. With them, you can 
-use the standard location locally and the custom location on Heroku. An example 
+use the standard location locally and the custom location on Scalingo. An example 
 configuration for Ruby's Capybara:
 
 ```
@@ -53,9 +57,3 @@ end
 
 Capybara.javascript_driver = :chrome
 ```
-
-## Releasing a new version
-
-Make sure you publish this buildpack in the buildpack registry
-
-`heroku buildpacks:publish heroku/google-chrome master`
