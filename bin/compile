@@ -145,7 +145,7 @@ for DEB in $(ls -1 $APT_CACHE_DIR/archives/*.deb); do
   DEB_FILE=$(basename $DEB)
   if [ -f $ENV_DIR/GOOGLE_CHROME_VERSION ] && [ "${DEB_FILE}" == "google-chrome-${channel}_current_amd64.deb" ]; then
       topic "Ignoring ${DEB_FILE}"
-  elif [ "${DEB}" == "google-chrome-stable_97.0.4692.99-1_amd64.deb" ]; then
+  elif [ "${DEB_FILE}" == "google-chrome-stable_97.0.4692.99-1_amd64.deb" ]; then
       topic "Copying the old DEB over for extraction"
       cp $DEB_FILE $BUILD_DIR/.apt/
   else
