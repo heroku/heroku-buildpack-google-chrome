@@ -147,7 +147,7 @@ for DEB in $(ls -1 $APT_CACHE_DIR/archives/*.deb); do
       topic "Ignoring ${DEB_FILE}"
   elif [ "${DEB_FILE}" == "google-chrome-stable_97.0.4692.99-1_amd64.deb" ]; then
       topic "Copying the old DEB over for extraction"
-      cp $DEB_FILE $BUILD_DIR/.apt/
+      cp $APT_CACHE_DIR/archives/google-chrome-stable_97.0.4692.99-1_amd64.deb.deb $BUILD_DIR/.apt/
   else
     topic "Installing ${DEB_FILE}"
     dpkg -x $DEB $BUILD_DIR/.apt/
