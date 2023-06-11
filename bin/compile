@@ -102,18 +102,15 @@ if [ ! -f $CACHE_DIR/PURGED_CACHE_V1 ]; then
   touch $CACHE_DIR/PURGED_CACHE_V1
 fi
 
-# # Detect requested channel or default to stable
-# if [ -f $ENV_DIR/GOOGLE_CHROME_VERSION ]; then
-#   # Check available versions here: https://www.ubuntuupdates.org/package/google_chrome/stable/main/base/google-chrome-stable
-#   version=$(cat $ENV_DIR/GOOGLE_CHROME_VERSION)
-#   topic "Installing Google Chrome $version."
-#   PACKAGES="$PACKAGES https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${version}_amd64.deb"
-# else
-#   topic "Installing Google Chrome from the $channel channel."
-#   PACKAGES="$PACKAGES https://dl.google.com/linux/direct/google-chrome-${channel}_current_amd64.deb"
-# fi
-topic "Installing Google Chrome from the $channel channel."
-PACKAGES="$PACKAGES https://dl.google.com/linux/direct/google-chrome-${channel}_current_amd64.deb"
+# Detect requested channel or default to stable
+if [ -f $ENV_DIR/GOOGLE_CHROME_JETINSIGHT_VERSION ]; then
+  # Check available versions here: https://www.ubuntuupdates.org/package/google_chrome/stable/main/base/google-chrome-stable
+  topic "Installing Google Chrome 97."
+  PACKAGES="$PACKAGES https://s3.us-west-1.amazonaws.com/assets.jetinsight.com/misc/google-chrome-stable_97.0.4692.99-1_amd64.deb"
+else
+  topic "Installing Google Chrome from the $channel channel."
+  PACKAGES="$PACKAGES https://dl.google.com/linux/direct/google-chrome-${channel}_current_amd64.deb"
+fi
 
 APT_CACHE_DIR="$CACHE_DIR/apt/cache"
 APT_STATE_DIR="$CACHE_DIR/apt/state"
@@ -141,12 +138,9 @@ done
 
 mkdir -p $BUILD_DIR/.apt
 
-topic "Copying the old DEB over for extraction"
-cp $APT_CACHE_DIR/archives/google-chrome-stable_97.0.4692.99-1_amd64.deb $BUILD_DIR/.apt/
-
 for DEB in $(ls -1 $APT_CACHE_DIR/archives/*.deb); do
   DEB_FILE=$(basename $DEB)
-  if [ -f $ENV_DIR/GOOGLE_CHROME_VERSION ] && [ "${DEB_FILE}" == "google-chrome-${channel}_current_amd64.deb" ]; then
+  if [ -f $ENV_DIR/GOOGLE_CHROME_JETINSIGHT_VERSION ] && [ "${DEB_FILE}" == "google-chrome-${channel}_current_amd64.deb" ]; then
       topic "Ignoring ${DEB_FILE}"
   else
     topic "Installing ${DEB_FILE}"
