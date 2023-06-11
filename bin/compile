@@ -142,7 +142,7 @@ done
 mkdir -p $BUILD_DIR/.apt
 
 topic "Copying the old DEB over for extraction"
-cp $APT_CACHE_DIR/archives/google-chrome-stable_97.0.4692.99-1_amd64.deb.deb $BUILD_DIR/.apt/
+cp $APT_CACHE_DIR/archives/google-chrome-stable_97.0.4692.99-1_amd64.deb $BUILD_DIR/.apt/
 
 for DEB in $(ls -1 $APT_CACHE_DIR/archives/*.deb); do
   DEB_FILE=$(basename $DEB)
