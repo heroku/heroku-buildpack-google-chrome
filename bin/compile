@@ -102,16 +102,18 @@ if [ ! -f $CACHE_DIR/PURGED_CACHE_V1 ]; then
   touch $CACHE_DIR/PURGED_CACHE_V1
 fi
 
-# Detect requested channel or default to stable
-if [ -f $ENV_DIR/GOOGLE_CHROME_VERSION ]; then
-  # Check available versions here: https://www.ubuntuupdates.org/package/google_chrome/stable/main/base/google-chrome-stable
-  version=$(cat $ENV_DIR/GOOGLE_CHROME_VERSION)
-  topic "Installing Google Chrome $version."
-  PACKAGES="$PACKAGES https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${version}_amd64.deb"
-else
-  topic "Installing Google Chrome from the $channel channel."
-  PACKAGES="$PACKAGES https://dl.google.com/linux/direct/google-chrome-${channel}_current_amd64.deb"
-fi
+# # Detect requested channel or default to stable
+# if [ -f $ENV_DIR/GOOGLE_CHROME_VERSION ]; then
+#   # Check available versions here: https://www.ubuntuupdates.org/package/google_chrome/stable/main/base/google-chrome-stable
+#   version=$(cat $ENV_DIR/GOOGLE_CHROME_VERSION)
+#   topic "Installing Google Chrome $version."
+#   PACKAGES="$PACKAGES https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${version}_amd64.deb"
+# else
+#   topic "Installing Google Chrome from the $channel channel."
+#   PACKAGES="$PACKAGES https://dl.google.com/linux/direct/google-chrome-${channel}_current_amd64.deb"
+# fi
+topic "Installing Google Chrome from the $channel channel."
+PACKAGES="$PACKAGES https://dl.google.com/linux/direct/google-chrome-${channel}_current_amd64.deb"
 
 APT_CACHE_DIR="$CACHE_DIR/apt/cache"
 APT_STATE_DIR="$CACHE_DIR/apt/state"
