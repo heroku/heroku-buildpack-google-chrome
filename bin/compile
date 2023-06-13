@@ -106,7 +106,7 @@ fi
 if [ -f $ENV_DIR/GOOGLE_CHROME_JETINSIGHT_VERSION ]; then
   # Check available versions here: https://www.ubuntuupdates.org/package/google_chrome/stable/main/base/google-chrome-stable
   topic "Installing Google Chrome 97."
-  PACKAGES="$PACKAGES https://s3.us-west-1.amazonaws.com/assets.jetinsight.com/misc/google-chrome-stable_97.0.4692.99-1_amd64.deb"
+  PACKAGES="$PACKAGES https://cdn.jetinsight.com/misc/google-chrome-stable_97.0.4692.99-1_amd64.deb"
 else
   topic "Installing Google Chrome from the $channel channel."
   PACKAGES="$PACKAGES https://dl.google.com/linux/direct/google-chrome-${channel}_current_amd64.deb"
