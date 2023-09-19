@@ -39,16 +39,16 @@ use the standard location locally and the custom location on Heroku. An example
 configuration for Ruby's Capybara:
 
 ```
-chrome_bin = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
-
-chrome_opts = chrome_bin ? { "chromeOptions" => { "binary" => chrome_bin } } : {}
+chrome_shim = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
 
 Capybara.register_driver :chrome do |app|
-  Capybara::Selenium::Driver.new(
-     app,
-     browser: :chrome,
-     desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(chrome_opts)
-  )
+  options = if chrome_shim.present?
+              ::Selenium::WebDriver::Chrome::Options.new(binary: chrome_shim)
+            else
+              ::Selenium::WebDriver::Chrome::Options.new
+            end
+
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options:)
 end
 
 Capybara.javascript_driver = :chrome
