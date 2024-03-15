@@ -3,6 +3,11 @@
 This buildpack downloads and installs (headless) Google Chrome from your choice
 of release channels.
 
+> [!IMPORTANT]
+> When used with Chromedriver, the Chromedriver version (installed by a different buildpack) falls out of sync with Chrome causing build failures.
+> 
+> **Instead, please use [Chrome for Testing buildpack](https://github.com/heroku/heroku-buildpack-chrome-for-testing)**, which installs  [matching Chrome + Chromedriver versions](https://googlechromelabs.github.io/chrome-for-testing/).
+
 ## Channels
 
 You can choose your release channel by specifying `GOOGLE_CHROME_CHANNEL` as
