@@ -65,6 +65,7 @@ case "${STACK}" in
     PACKAGES="
       gconf-service
       libappindicator1
+      libasound.so.2
       libasound2
       libatk1.0-0
       libatk-bridge2.0-0
