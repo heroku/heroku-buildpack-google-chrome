@@ -1,3 +1,7 @@
+## WARNING: `heroku-buildpack-google-chrome` is deprecated
+
+This buildpack is deprecated and is no longer being maintained. Use (https://github.com/heroku/heroku-buildpack-chrome-for-testing.
+
 # heroku-buildpack-google-chrome
 
 This buildpack downloads and installs (headless) Google Chrome from your choice
