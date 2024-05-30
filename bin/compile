@@ -59,7 +59,14 @@ esac
 
 # Install correct dependencies according to $STACK
 case "${STACK}" in
+  "heroku-24")
+    error "This buildpack has reached end of life. Please use https://github.com/heroku/heroku-buildpack-chrome-for-testing"
+    ;;
   "heroku-18" | "heroku-20" | "heroku-22")
+    topic "###### WARNING ######"
+    topic "This buildpack is deprecated. Please use https://github.com/heroku/heroku-buildpack-chrome-for-testing"
+    topic "#####################"
+
     # the package list is found by using ci:debug then running ldd $GOOGLE_CHROME_BIN | grep not
     # also look here for more packages/notes https://developers.google.com/web/tools/puppeteer/troubleshooting
     PACKAGES="

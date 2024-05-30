@@ -6,7 +6,7 @@ jobs:
   test:
     strategy:
       matrix:
-        stack: [heroku-18, heroku-20, heroku-22]
+        stack: [heroku-20, heroku-22]
         channel: [stable, beta, unstable]
     runs-on: ubuntu-latest
 
