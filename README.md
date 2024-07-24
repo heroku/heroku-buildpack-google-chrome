@@ -1,7 +1,16 @@
+## WARNING: `heroku-buildpack-google-chrome` is deprecated
+
+This buildpack is deprecated and is no longer being maintained. Use (https://github.com/heroku/heroku-buildpack-chrome-for-testing.
+
 # heroku-buildpack-google-chrome
 
 This buildpack downloads and installs (headless) Google Chrome from your choice
 of release channels.
+
+> [!IMPORTANT]
+> When used with Chromedriver, the Chromedriver version (installed by a different buildpack) falls out of sync with Chrome causing build failures.
+> 
+> **Instead, please use [Chrome for Testing buildpack](https://github.com/heroku/heroku-buildpack-chrome-for-testing)**, which installs  [matching Chrome + Chromedriver versions](https://googlechromelabs.github.io/chrome-for-testing/).
 
 ## Channels
 
@@ -24,35 +33,10 @@ the selected channel.
 
 ## Selenium
 
-To use Selenium with this buildpack, you'll also need Chrome's webdriver.
-This buildpack does not install chromedriver, but there is a
-[chromedriver buildpack](https://github.com/heroku/heroku-buildpack-chromedriver)
-also available.
-
-Additionally, chromedriver expects Chrome to be installed at `/usr/bin/google-chrome`,
-but that's a read-only filesystem in a Heroku slug. You'll need to tell Selenium/chromedriver
-that the chrome binary is at `/app/.apt/usr/bin/google-chrome` instead.
-
-To make that easier, this buildpack makes `$GOOGLE_CHROME_BIN`, and
-`$GOOGLE_CHROME_SHIM` available as environment variables. With them, you can 
-use the standard location locally and the custom location on Heroku. An example 
-configuration for Ruby's Capybara:
-
-```
-chrome_bin = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
-
-chrome_opts = chrome_bin ? { "chromeOptions" => { "binary" => chrome_bin } } : {}
-
-Capybara.register_driver :chrome do |app|
-  Capybara::Selenium::Driver.new(
-     app,
-     browser: :chrome,
-     desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(chrome_opts)
-  )
-end
-
-Capybara.javascript_driver = :chrome
-```
+> [!CAUTION]
+> To use Selenium, do not install this buildpack.
+>
+> **Instead, please use [Chrome for Testing buildpack](https://github.com/heroku/heroku-buildpack-chrome-for-testing)**, which installs  [matching Chrome + Chromedriver versions](https://googlechromelabs.github.io/chrome-for-testing/).
 
 ## Releasing a new version
 
