@@ -111,8 +111,6 @@ fi
 
 topic "Installing Google Chrome from the $channel channel."
 
-PACKAGES="$PACKAGES https://lumint-utils.s3.us-east-2.amazonaws.com/google_chrome_${chrome_version}.deb"
-
 APT_CACHE_DIR="$CACHE_DIR/apt/cache"
 APT_STATE_DIR="$CACHE_DIR/apt/state"
 
@@ -136,6 +134,10 @@ for PACKAGE in $PACKAGES; do
     apt-get $APT_OPTIONS -y --force-yes -d install --reinstall $PACKAGE | indent
   fi
 done
+
+aws s3api get-object --bucket $ENV_DIR/S3_BUCKET_URL --key chrome/google-chrome-stable_${chrome_version}.deb $CACHE_DIR/google-chrome.deb --region $ENV_DIR/S3_REGION
+
+dpkg -i $CACHE_DIR/google_chrome.deb
 
 mkdir -p $BUILD_DIR/.apt
 
