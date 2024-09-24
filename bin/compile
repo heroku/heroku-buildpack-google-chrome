@@ -90,8 +90,23 @@ case "${STACK}" in
       fonts-liberation
     "
     ;;
-  *)
-    error "STACK must be 'heroku-18', 'heroku-20' or 'heroku-22', not '${STACK}'."
+  "heroku-24")
+    PACKAGES="
+      fonts-liberation
+      libasound2t64
+      libatk-bridge2.0-0
+      libatk1.0-0
+      libcups2
+      libgbm1
+      libxcomposite1
+      libxdamage1
+      libxfixes3
+      libxkbcommon0
+      libxrandr2
+    "
+    ;;
+    *)
+    error "STACK must be 'heroku-18', 'heroku-20', 'heroku-22', or 'heroku-24' not '${STACK}'."
 esac
 
 if [ ! -f $CACHE_DIR/PURGED_CACHE_V1 ]; then
